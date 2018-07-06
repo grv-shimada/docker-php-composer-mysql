@@ -14,3 +14,8 @@
 
 #### create a cakephp app
   `# composer self-update && composer create-project --prefer-dist cakephp/app (your app name)`
+
+#### If pages transition does not work, review apache settings.
+#### enable mod_rewrite
+  `# a2enmod rewrite`
+  `# service apache2 restart`
