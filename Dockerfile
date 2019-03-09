@@ -1,7 +1,22 @@
-FROM php:7.1.18-apache
+FROM centos:6
 
-RUN apt-get update
-RUN apt-get -y install vim wget unzip libicu-dev
-RUN docker-php-ext-install pdo_mysql mysqli intl
-RUN apt-get clean
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN yum -y update
+
+# repo
+RUN yum -y install epel-release
+RUN rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+# apache
+RUN yum -y install httpd
+
+# php
+RUN yum -y install --enablerepo=remi,remi-php56 php php-intl php-devel php-mbstring php-pdo php-gd php-xml php-mcrypt php-mysql
+
+# other
+RUN yum -y install zip unzip
+
+# composer
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
+WORKDIR /var/www/html

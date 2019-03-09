@@ -1,21 +1,24 @@
 # docker-php-composer-mysql
 
-#### for build
-  `$ docker-compose build`
+#### remove all container(with running container)
+  ```
+  $ docker rm -f `docker ps -aq`
+  ```
 
-#### for image
-  `$ docker-compose pull`
+#### remove all images
+  `$ docker images -aq | xargs docker rmi`
 
-#### start service in background
+#### compose up
   `$ docker-compose up -d`
+
+#### confirm connection to container
+  `$ docker exec -it apache-php ls`
+
+#### start apache
+  `$ docker exec -it apache-php service httpd start`
 
 #### into a container
   `$ docker exec -it (container name) bash`
 
 #### create a cakephp app
   `# composer self-update && composer create-project --prefer-dist cakephp/app (your app name)`
-
-#### If pages transition does not work, review apache settings.
-#### enable mod_rewrite
-  `# a2enmod rewrite`
-  `# service apache2 restart`
