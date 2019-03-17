@@ -7,25 +7,36 @@ services:
     build: .
     ports:
       - 80:80
-    depends_on:
+    links:
       - db
     volumes:
       - ./html:/var/www/html
-    container_name: "apache-php"
+    container_name: apache-php
   db:
-    image: mysql:5.7
+    image: postgres:9.6
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-    container_name: "mysql5.7"
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    depends_on:
-      - db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    hostname: postgres
+    restart: always
+    user: root
+    container_name: postgresql
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
     ports:
       - 8080:80
+    links:
+      - db
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin/storage
     environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=root
-    container_name: "phpmyamin"
+      PGADMIN_DEFAULT_EMAIL: root
+      PGADMIN_DEFAULT_PASSWORD: root
+    hostname: pgadmin4
+    restart: always
