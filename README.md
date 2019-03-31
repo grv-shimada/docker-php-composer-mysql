@@ -15,13 +15,19 @@
   `$ docker exec -it apache-php ls`
 
 #### start apache
+ - CentOS6
   `$ docker exec -it apache-php service httpd start`
+ - CentOS7
+  `$ docker exec -it apache-php systemctl start httpd.service`
 
 #### into a container
-  `$ docker exec -it (container name) bash`
+  `$ docker exec -it apache-php bash`
 
 #### create a cakephp app
   `# composer self-update && composer create-project --prefer-dist cakephp/app (your app name)`
+
+#### apache settings
+ - `$ vi /etc/httpd/conf/httpd.conf`
 
 #### config/app.php for postgresql
   ```
